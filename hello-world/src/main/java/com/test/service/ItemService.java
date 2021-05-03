@@ -13,7 +13,7 @@ public class ItemService {
     private final ItemRepository itemRepository;
 
     // constructor injection: TOTO JE BEST PRACTICE!!! (dalsi: field, setter injection)
-    public ItemService(@Qualifier("jdbcItemRepository") ItemRepository itemRepository) {
+    public ItemService(/*@Qualifier("jdbcItemRepository") */ItemRepository itemRepository) {
         this.itemRepository = itemRepository;
     }
 

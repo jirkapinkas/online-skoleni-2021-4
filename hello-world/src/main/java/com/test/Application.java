@@ -7,10 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
@@ -23,6 +20,7 @@ public class Application {
     // nebo jeste lepe pres @Slf4j
 //    private static final Logger log = LoggerFactory.getLogger(Application.class);
 
+    @Profile("jdbc")
     @Bean
     // Uvnitr @Value je: SpEL (Spring Expression Language)
     public HikariDataSource dataSource(@Value("${java.version}") String javaVersion, @Value("#{1 + 1}") int dva) {
@@ -37,6 +35,7 @@ public class Application {
         return ds;
     }
 
+    @Profile("jdbc")
     @Bean
     public JdbcTemplate jdbcTemplate(DataSource dataSource) {
         return new JdbcTemplate(dataSource);
@@ -48,8 +47,14 @@ public class Application {
 //    }
 
     public static void main(String[] args) {
-        AnnotationConfigApplicationContext applicationContext
-                = new AnnotationConfigApplicationContext(Application.class);
+        // Do VM Options je nutne pridat: -Dspring.profiles.active=jdbc
+//        AnnotationConfigApplicationContext applicationContext
+//                = new AnnotationConfigApplicationContext(Application.class);
+        // NEBO:
+        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext();
+        applicationContext.getEnvironment().setActiveProfiles("dummy");
+        applicationContext.register(Application.class);
+        applicationContext.refresh(); // TADY se provadi inicializace Spring kontejneru!!!
 
         ItemService itemService = applicationContext.getBean(ItemService.class);
 

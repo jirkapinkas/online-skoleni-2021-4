@@ -1,8 +1,10 @@
 package com.test.repository;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+@Profile("jdbc")
 @Repository
 public class JdbcItemRepository implements ItemRepository {
 
