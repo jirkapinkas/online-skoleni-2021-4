@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -23,7 +24,10 @@ public class Application {
 //    private static final Logger log = LoggerFactory.getLogger(Application.class);
 
     @Bean
-    public HikariDataSource dataSource() {
+    // Uvnitr @Value je: SpEL (Spring Expression Language)
+    public HikariDataSource dataSource(@Value("${java.version}") String javaVersion, @Value("#{1 + 1}") int dva) {
+        System.out.println("java version = " + javaVersion);
+        System.out.println("dva? 1 + 1 = " + dva);
 //        log.info("DataSource constructed");
         System.out.println("DataSource constructed");
         HikariDataSource ds = new HikariDataSource();
