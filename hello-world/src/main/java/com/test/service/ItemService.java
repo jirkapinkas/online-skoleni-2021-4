@@ -1,14 +1,20 @@
 package com.test.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.test.repository.ItemRepository;
 
 @Service
+//@RequiredArgsConstructor // alternativa psani konstruktoru (anotace je z Lomboku)
 public class ItemService {
 
-    @Autowired
-    private ItemRepository itemRepository;
+    private final ItemRepository itemRepository;
+
+    // constructor injection: TOTO JE BEST PRACTICE!!! (dalsi: field, setter injection)
+    public ItemService(ItemRepository itemRepository) {
+        this.itemRepository = itemRepository;
+    }
 
     public String getHello() {
         return "Hello world " + itemRepository.count();
