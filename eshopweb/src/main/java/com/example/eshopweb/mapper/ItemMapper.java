@@ -2,7 +2,9 @@ package com.example.eshopweb.mapper;
 
 import com.example.eshopweb.dto.ItemDto;
 import com.example.eshopweb.entity.Item;
+import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
@@ -14,5 +16,12 @@ public interface ItemMapper {
 
     ItemDto toDto(Item item);
     List<ItemDto> toDto(List<Item> item);
+
+    @AfterMapping
+    default void afterMappingToDto(Item item, @MappingTarget ItemDto itemDto) {
+        if(itemDto.getName() != null) {
+            itemDto.setName(itemDto.getName().toUpperCase());
+        }
+    }
 
 }
