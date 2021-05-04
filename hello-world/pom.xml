@@ -10,6 +10,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
         </dependency>
@@ -36,12 +41,14 @@
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+        <!-- SPRAVNY ZPUSOB OVERRIDOVANI VERZI MANAGOVANYCH KNIHOVEN VE SPRING BOOTu -->
+        <junit-jupiter.version>5.7.0</junit-jupiter.version>
     </properties>
 
     <!-- reseni pomoci parenta: -->
     <parent>
         <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-parent</artifactId>
+        <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.4.5</version>
         <relativePath />
     </parent>
