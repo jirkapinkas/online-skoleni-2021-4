@@ -16,9 +16,10 @@ public class ItemController {
     private ItemService itemService;
 
     // http://localhost:8080/item
+    // http://localhost:8080/item?orderBy=id&direction=ASC
     @GetMapping
-    public List<ItemDto> items() {
-        return itemService.findAll();
+    public List<ItemDto> items(@RequestParam(defaultValue = "id") String orderBy, @RequestParam(defaultValue = "ASC") String direction) {
+        return itemService.findAll(orderBy, direction);
     }
 
     // http://localhost:8080/item/1

@@ -5,6 +5,7 @@ import com.example.eshopweb.entity.Item;
 import com.example.eshopweb.mapper.ItemMapper;
 import com.example.eshopweb.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,8 +20,9 @@ public class ItemService {
     @Autowired
     private ItemMapper itemMapper;
 
-    public List<ItemDto> findAll() {
-        List<Item> items = itemRepository.findAll();
+    public List<ItemDto> findAll(String orderBy, String direction) {
+        Sort sort = Sort.by(Sort.Direction.fromString(direction.toUpperCase()), orderBy);
+        List<Item> items = itemRepository.findAll(sort);
         return itemMapper.toDto(items);
     }
 
