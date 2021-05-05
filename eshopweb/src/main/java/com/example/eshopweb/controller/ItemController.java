@@ -1,8 +1,12 @@
 package com.example.eshopweb.controller;
 
 import com.example.eshopweb.dto.ItemDto;
+import com.example.eshopweb.exception.NotFoundException;
+import com.example.eshopweb.pojo.Message;
 import com.example.eshopweb.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,8 +28,15 @@ public class ItemController {
 
     // http://localhost:8080/item/1
     @GetMapping("/{id}")
-    public Optional<ItemDto> item(@PathVariable int id) {
+    public /*Optional<ItemDto>*/ ItemDto item(@PathVariable int id) {
         return itemService.findById(id);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<Message> handleNotFoundException(NotFoundException e) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(new Message(e.getMessage()));
     }
 
     // http://localhost:8080/item

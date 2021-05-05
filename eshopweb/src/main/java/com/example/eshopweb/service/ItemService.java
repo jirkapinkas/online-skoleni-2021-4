@@ -2,6 +2,7 @@ package com.example.eshopweb.service;
 
 import com.example.eshopweb.dto.ItemDto;
 import com.example.eshopweb.entity.Item;
+import com.example.eshopweb.exception.NotFoundException;
 import com.example.eshopweb.mapper.ItemMapper;
 import com.example.eshopweb.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,10 @@ public class ItemService {
         return itemMapper.toDto(items);
     }
 
-    public Optional<ItemDto> findById(int id) {
+    public /*Optional<ItemDto>*/ ItemDto findById(int id) {
         return itemRepository.findById(id)
-                .map(itemMapper::toDto);
+                .map(itemMapper::toDto)
+                .orElseThrow(() -> new NotFoundException("Item with id: '" + id + "' does not exist!"));
     }
 
     public void deleteById(int id) {
