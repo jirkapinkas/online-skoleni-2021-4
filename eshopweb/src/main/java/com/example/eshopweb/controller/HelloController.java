@@ -6,9 +6,14 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.security.Principal;
+import java.util.Locale;
 
 @RestController
 public class HelloController {
@@ -48,6 +53,11 @@ public class HelloController {
                 .status(HttpStatus.OK)
                 .contentType(mediaType)
                 .body(Files.readAllBytes(path));
+    }
+
+    @GetMapping("/stuff")
+    public void doStuff(HttpServletRequest request, HttpServletResponse response, HttpSession session, Principal principal, Locale locale) throws IOException {
+        response.getWriter().write("stuff");
     }
 
 }
