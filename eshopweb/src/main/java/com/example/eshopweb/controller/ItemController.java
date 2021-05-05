@@ -32,13 +32,6 @@ public class ItemController {
         return itemService.findById(id);
     }
 
-    @ExceptionHandler
-    public ResponseEntity<Message> handleNotFoundException(NotFoundException e) {
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body(new Message(e.getMessage()));
-    }
-
     // http://localhost:8080/item
     @PostMapping
     public ItemDto insert(@RequestBody ItemDto itemDto) {
