@@ -3,10 +3,7 @@ package com.example.eshopweb.controller;
 import com.example.eshopweb.dto.ItemDto;
 import com.example.eshopweb.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +25,26 @@ public class ItemController {
     @GetMapping("/{id}")
     public Optional<ItemDto> item(@PathVariable int id) {
         return itemService.findById(id);
+    }
+
+    // http://localhost:8080/item
+    @PostMapping
+    public ItemDto insert(@RequestBody ItemDto itemDto) {
+        itemDto.setId(0);
+        return itemService.save(itemDto);
+    }
+
+    // http://localhost:8080/item/1
+    @PutMapping("/{id}")
+    public ItemDto update(@RequestBody ItemDto itemDto, @PathVariable int id) {
+        itemDto.setId(id);
+        return itemService.save(itemDto);
+    }
+
+    // http://localhost:8080/item/1
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable int id) {
+        itemService.deleteById(id);
     }
 
 }

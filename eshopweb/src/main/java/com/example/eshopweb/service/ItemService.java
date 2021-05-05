@@ -29,4 +29,14 @@ public class ItemService {
                 .map(itemMapper::toDto);
     }
 
+    public void deleteById(int id) {
+        itemRepository.deleteById(id);
+    }
+
+    public ItemDto save(ItemDto itemDto) {
+        Item entity = itemMapper.toEntity(itemDto);
+        Item managedEntity = itemRepository.save(entity);
+        return itemMapper.toDto(managedEntity);
+    }
+
 }
