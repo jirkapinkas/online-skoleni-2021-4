@@ -74,14 +74,18 @@ public class ItemService {
         itemRepository.findById(5);
     }
 
+//    @Transactional(readOnly = true)
     public List<ItemDto> findAll(String orderBy, String direction) {
         Sort sort = Sort.by(Sort.Direction.fromString(direction.toUpperCase()), orderBy);
         List<Item> items = itemRepository.findAll(sort);
+//        List<Item> items = itemRepository.findAllFetchCategory(sort);
         return itemMapper.toDto(items);
     }
 
+//    @Transactional(readOnly = true)
     public /*Optional<ItemDto>*/ ItemDto findById(int id) {
         return itemRepository.findById(id)
+//        return itemRepository.findByIdFetchCategory(id)
                 .map(itemMapper::toDto)
                 .orElseThrow(() -> new NotFoundException("Item with id: '" + id + "' does not exist!"));
     }
