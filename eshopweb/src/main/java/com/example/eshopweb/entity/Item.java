@@ -21,7 +21,8 @@ public class Item {
 
     private double price;
 
-    @ManyToOne
+    // vychozi nastaveni: EAGER, coz znamena: kdyz se ziska objekt typu Item z databaze, tak se take ziska jeho kategorie
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
     private Category category;
 
