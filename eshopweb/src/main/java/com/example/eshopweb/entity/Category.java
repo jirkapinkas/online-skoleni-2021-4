@@ -17,7 +17,10 @@ public class Category {
 
     private String name;
 
-    @OneToMany(mappedBy = "category")
+    // vychozi nastaveni: LAZY, coz znamena: Kdyz se z databaze ziska Category, tak v atributu "items" je proxy objekt.
+    // Kdyz se na nem zavola .get(0), .size(), ..., tak se provede SELECT do databaze a informace o objektech typu Item
+    // se ziskaji z databaze.
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     private List<Item> items;
 
 }
