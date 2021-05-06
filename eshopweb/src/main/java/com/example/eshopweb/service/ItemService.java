@@ -5,15 +5,22 @@ import com.example.eshopweb.entity.Item;
 import com.example.eshopweb.exception.NotFoundException;
 import com.example.eshopweb.mapper.ItemMapper;
 import com.example.eshopweb.repository.ItemRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.hibernate.annotations.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Sort;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class ItemService {
 
@@ -74,6 +81,7 @@ public class ItemService {
         itemRepository.findById(5);
     }
 
+    @Cacheable("items")
 //    @Transactional(readOnly = true)
     public List<ItemDto> findAll(String orderBy, String direction) {
         Sort sort = Sort.by(Sort.Direction.fromString(direction.toUpperCase()), orderBy);
@@ -82,6 +90,7 @@ public class ItemService {
         return itemMapper.toDto(items);
     }
 
+    @Cacheable(cacheNames = "item", key = "#id")
 //    @Transactional(readOnly = true)
     public /*Optional<ItemDto>*/ ItemDto findById(int id) {
         return itemRepository.findById(id)
@@ -90,14 +99,28 @@ public class ItemService {
                 .orElseThrow(() -> new NotFoundException("Item with id: '" + id + "' does not exist!"));
     }
 
+    @Caching(evict = {
+            @CacheEvict(cacheNames = "items", allEntries = true),
+            @CacheEvict(cacheNames = "item", key="#id")
+    })
     public void deleteById(int id) {
         itemRepository.deleteById(id);
     }
 
+    @Caching(evict = {
+            @CacheEvict(cacheNames = "items", allEntries = true),
+            @CacheEvict(cacheNames = "item", key="#itemDto.id")
+    })
     public ItemDto save(ItemDto itemDto) {
         Item entity = itemMapper.toEntity(itemDto);
         Item managedEntity = itemRepository.save(entity);
         return itemMapper.toDto(managedEntity);
     }
+
+//    @Scheduled(fixedDelay = 10_000)
+//    @CacheEvict(cacheNames = {"items", "item"}, allEntries = true)
+//    public void clearCache() {
+//        log.info("cache cleared ...");
+//    }
 
 }
