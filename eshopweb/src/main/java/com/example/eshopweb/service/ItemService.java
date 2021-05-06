@@ -64,7 +64,7 @@ public class ItemService {
         itemRepository.findById(5);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public void transactions1() {
         // => bude 1 transakce v databazi
         itemRepository.findById(1);
