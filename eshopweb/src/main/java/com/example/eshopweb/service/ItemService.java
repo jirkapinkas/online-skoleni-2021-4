@@ -54,6 +54,25 @@ public class ItemService {
         // TADY NEMUSIME VOLAT itemRepository.save(managedItem) ABY SE PROVEDL UPDATE ENTITY!!!
     }
 
+    public void transactions5() {
+        // Kazda tato metoda je implicitne transakcni!!!
+        // => bude 5 transakci v databazi & to znamena, ze se 5x zavola COMMIT do databaze
+        itemRepository.findById(1);
+        itemRepository.findById(2);
+        itemRepository.findById(3);
+        itemRepository.findById(4);
+        itemRepository.findById(5);
+    }
+
+    @Transactional
+    public void transactions1() {
+        // => bude 1 transakce v databazi
+        itemRepository.findById(1);
+        itemRepository.findById(2);
+        itemRepository.findById(3);
+        itemRepository.findById(4);
+        itemRepository.findById(5);
+    }
 
     public List<ItemDto> findAll(String orderBy, String direction) {
         Sort sort = Sort.by(Sort.Direction.fromString(direction.toUpperCase()), orderBy);
