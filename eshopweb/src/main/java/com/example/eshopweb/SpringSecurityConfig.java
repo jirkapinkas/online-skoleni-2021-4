@@ -35,7 +35,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .httpBasic()
                 .and()
-                .logout();
+                .logout()
+                .and()
+                .rememberMe();
     }
 
     @Bean
