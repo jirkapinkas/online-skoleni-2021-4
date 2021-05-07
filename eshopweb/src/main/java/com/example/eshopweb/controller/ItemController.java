@@ -7,6 +7,7 @@ import com.example.eshopweb.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -22,6 +23,7 @@ public class ItemController {
 
     // http://localhost:8080/item
     // http://localhost:8080/item?orderBy=id&direction=ASC
+//    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public List<ItemDto> items(@RequestParam(defaultValue = "id") String orderBy, @RequestParam(defaultValue = "ASC") String direction) {
         return itemService.findAll(orderBy, direction);
