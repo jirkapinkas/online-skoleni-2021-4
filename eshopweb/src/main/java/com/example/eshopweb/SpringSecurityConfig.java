@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @Configuration
@@ -41,10 +42,20 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         UserDetails user =
                 User.builder()
                         .username("jirka")
-                        .password("{noop}jirka")
+//                        .password("{noop}jirka")
+                        .password("{bcrypt}$2a$10$D.qk3zAp8CmDbWD8/Rbwz.wHgVEjfvKcUo7pjqHFxILE76nZ0O3OK") // raw: "jirka"
                         .roles("USER")
                         .build();
         return new InMemoryUserDetailsManager(user);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(new BCryptPasswordEncoder().encode("jirka"));
+        System.out.println(new BCryptPasswordEncoder().encode("jirka"));
+        System.out.println(new BCryptPasswordEncoder().encode("jirka"));
+        System.out.println(new BCryptPasswordEncoder().encode("jirka"));
+        System.out.println(new BCryptPasswordEncoder().encode("jirka"));
+        System.out.println(new BCryptPasswordEncoder().matches("jirka", "$2a$10$D.qk3zAp8CmDbWD8/Rbwz.wHgVEjfvKcUo7pjqHFxILE76nZ0O3OK"));
     }
 
 }
